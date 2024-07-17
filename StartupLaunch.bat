@@ -1,0 +1,1 @@
+PowerShell.exe -WindowStyle hidden -File "D:\Code\Ilija PowerShell igraonica\StartupLaunch.ps1"

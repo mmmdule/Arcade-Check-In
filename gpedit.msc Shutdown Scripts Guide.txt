@@ -1,0 +1,1 @@
+gpedit.msc: Computer Configuration / Windows Settings / Scripts (Startup/Shutdown) / Shutdown. In the Shutdown Properties dialog, add the scripts to execute on shutdown
