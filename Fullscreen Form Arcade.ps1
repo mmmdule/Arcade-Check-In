@@ -1,6 +1,9 @@
 #Log console output to log file
 Start-Transcript -Path "C:\Logs\PowerShell_Log.txt"
 
+#Used to track logon status
+"" | Out-File -FilePath C:\Code\logoff\username.txt -NoNewline
+
 # Load the necessary assemblies
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -55,7 +58,11 @@ $form.add_Deactivate({
     Write-Host "Form lost focus. Executing code..."
     Write-Host "Logged in boolean value:"
     Write-Host $loggedIn
-    if($loggedIn -eq $false){
+
+    $loggedInTxt = Get-Content C:\Code\logoff\username.txt
+    Write-Host "Content of username.txt:"
+    Write-Host $loggedInTxt
+    if(!$loggedInTxt){ #$loggedIn -eq $false){
         ii . #logoff
     }
     # Your code here
@@ -87,15 +94,21 @@ $buttonSubmit.add_Click({
         if ($Response.Content -eq 'Valid login.'){
             $loggedIn = $true #To prevent Shutdown/Logout on form losing focus after login
             
+            $textBoxUsername.Text | Out-File -FilePath C:\Code\logoff\username.txt -NoNewline
+
             $msgBody = "Successful login."
             [System.Windows.MessageBox]::Show($msgBody)
             $form.Close()
         }
         else{
+            "tmp"| Out-File -FilePath C:\Code\logoff\username.txt -NoNewline #to prevent logoff on failure MsgBox
+
             $loggedIn = $true
             $msgBody = "Invalid login"
             [System.Windows.MessageBox]::Show($msgBody)
             $loggedIn = $false
+
+            ""| Out-File -FilePath C:\Code\logoff\username.txt -NoNewline
         }
 })
 
